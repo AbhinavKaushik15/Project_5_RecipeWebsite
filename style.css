@@ -1,0 +1,363 @@
+/* Import Google Fonts for a modern, inviting look */
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;600&display=swap");
+
+/* CSS Variables for a clean, maintainable theme */
+:root {
+  --primary-color: #3f51b5; /* Indigo */
+  --secondary-color: #ff9800; /* Amber */
+  --accent-color: #8bc34a; /* Light Green */
+  --text-color: #333;
+  --light-text-color: #fcfcfc;
+  --background-gradient-start: #e0f2f7; /* Light Blue */
+  --background-gradient-end: #fce4ec; /* Light Pink */
+  --card-background-rgb: 255, 255, 255; /* White for transparency */
+  --border-color: rgba(0, 0, 0, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.2);
+  --transition-speed: 0.4s; /* Slightly slower for more noticeable transitions */
+  --spacing-small: 10px;
+  --spacing-medium: 15px;
+  --spacing-large: 25px;
+  --border-radius: 12px; /* Slightly more rounded corners */
+  --card-max-height: 550px; /* Fixed maximum height for cards */
+  --scroll-area-height: 220px; /* Max height for the scrollable content area */
+}
+
+/* --- Base Styles --- */
+body {
+  font-family: "Open Sans", sans-serif;
+  line-height: 1.7; /* Increased line height for readability */
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(
+    135deg,
+    var(--background-gradient-start),
+    var(--background-gradient-end)
+  );
+  color: var(--text-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden; /* Prevent horizontal scroll on body */
+}
+
+/* --- Header Styling --- */
+header {
+  background-color: var(--primary-color);
+  color: var(--light-text-color);
+  padding: var(--spacing-large) var(--spacing-large);
+  text-align: center;
+  box-shadow: 0 6px 12px var(--shadow-color);
+  margin-bottom: var(--spacing-large);
+}
+
+header h1 {
+  font-family: "Merriweather", serif;
+  margin-bottom: var(--spacing-small);
+  font-size: 3em;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+}
+
+.filters {
+  margin-top: var(--spacing-medium);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-medium);
+}
+
+.filters label {
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
+.filters select {
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  border: none;
+  background-color: rgba(
+    var(--card-background-rgb),
+    0.95
+  ); /* Slightly less transparent */
+  color: var(--primary-color); /* Text color to match primary */
+  font-family: "Open Sans", sans-serif;
+  font-size: 1em;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(var(--shadow-color), 0.2);
+  transition: all var(--transition-speed) ease;
+}
+
+.filters select:hover,
+.filters select:focus {
+  box-shadow: 0 4px 10px rgba(var(--primary-color), 0.3);
+  outline: none; /* Remove default focus outline */
+}
+
+/* --- Recipe Grid Layout (CSS Grid) --- */
+.recipe-grid {
+  display: grid;
+  gap: var(--spacing-large);
+  padding: var(--spacing-large);
+  justify-content: center;
+  flex-grow: 1;
+}
+
+/* --- Recipe Card Styling --- */
+.recipe-card {
+  background-color: rgba(
+    var(--card-background-rgb),
+    0.92
+  ); /* More opaque for better readability of text */
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 8px 16px var(--shadow-color);
+  overflow: hidden; /* Important for hiding content outside card boundaries */
+  transition: transform var(--transition-speed) ease,
+    box-shadow var(--transition-speed) ease;
+  display: flex;
+  flex-direction: column;
+  max-width: 400px; /* Slightly wider cards for content */
+  width: 100%;
+  min-height: var(--card-max-height); /* Set minimum height */
+  max-height: var(--card-max-height); /* Fixed maximum height */
+}
+
+.recipe-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(var(--primary-color), 0.4); /* Deeper shadow on hover */
+}
+
+.recipe-image {
+  width: 100%;
+  height: 200px; /* Consistent image height */
+  object-fit: cover;
+  display: block;
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+  transition: transform var(--transition-speed) ease;
+}
+
+.recipe-card:hover .recipe-image {
+  transform: scale(1.1); /* More pronounced zoom on image */
+}
+
+.recipe-content {
+  padding: var(--spacing-medium);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Important for preventing content overflow of card itself */
+}
+
+.recipe-title {
+  font-family: "Merriweather", serif;
+  color: var(--primary-color);
+  margin-top: 0;
+  margin-bottom: var(--spacing-small);
+  font-size: 2em;
+  line-height: 1.2;
+}
+
+.recipe-description {
+  font-size: 0.95em;
+  color: var(--text-color);
+  margin-bottom: var(--spacing-medium);
+}
+
+/* --- Scrollable Content Area (Y-axis scroll) --- */
+.recipe-details-scroll {
+  flex-grow: 1; /* Allows this section to take up available space */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding-right: 10px; /* Space for scrollbar */
+  margin-bottom: var(--spacing-small);
+  max-height: var(--scroll-area-height); /* Limit scroll area height */
+}
+
+/* Custom Scrollbar (for Webkit browsers like Chrome/Safari) */
+.recipe-details-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.recipe-details-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.recipe-details-scroll::-webkit-scrollbar-thumb {
+  background: var(--secondary-color);
+  border-radius: 10px;
+}
+
+.recipe-details-scroll::-webkit-scrollbar-thumb:hover {
+  background: #e68900; /* Darker amber on hover */
+}
+
+/* --- Section Toggles (Ingredients/Preparation) --- */
+.section-container {
+  margin-top: auto; /* Pushes toggle buttons to the bottom */
+}
+
+.ingredients-section,
+.preparation-section {
+  transition: opacity var(--transition-speed) ease,
+    max-height var(--transition-speed) ease-in-out,
+    padding var(--transition-speed) ease;
+  opacity: 1;
+  max-height: 500px; /* Large enough to show content when not hidden */
+  overflow: hidden;
+  padding: 0;
+  margin-bottom: 0; /* Remove default margin for seamless transition */
+}
+
+.ingredients-section h3,
+.preparation-section h3 {
+  color: var(--accent-color);
+  margin-top: var(--spacing-small);
+  margin-bottom: var(--spacing-small);
+  font-size: 1.15em;
+  font-weight: 600;
+}
+
+.ingredients-list,
+.preparation-steps {
+  list-style-position: inside;
+  padding-left: 0;
+  margin-bottom: var(--spacing-small);
+}
+
+.ingredients-list li,
+.preparation-steps li {
+  margin-bottom: 5px;
+}
+
+/* Hidden class for toggle functionality - smooth transition */
+.hidden {
+  opacity: 0;
+  max-height: 0; /* Collapse the height */
+  padding-bottom: 0;
+  margin-bottom: 0;
+  pointer-events: none; /* Prevent interaction when hidden */
+}
+
+.toggle-button {
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: var(--spacing-small);
+  margin-right: var(--spacing-small);
+  font-size: 0.95em;
+  font-weight: 600;
+  transition: background-color var(--transition-speed) ease,
+    transform var(--transition-speed) ease,
+    box-shadow var(--transition-speed) ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-button:hover {
+  background-color: #e68900; /* Darker amber on hover */
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.toggle-button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Recipe Rating --- */
+.rating {
+  margin-top: var(--spacing-medium);
+  font-size: 1.2em;
+  color: var(--text-color);
+  text-align: right;
+}
+
+.rating .stars {
+  color: var(--secondary-color);
+  font-size: 1.4em;
+  letter-spacing: 3px;
+}
+
+/* --- Media Queries for Responsiveness --- */
+
+/* Small Screens (Mobile - up to 767px) */
+@media (max-width: 767px) {
+  header h1 {
+    font-size: 2.2em;
+  }
+
+  .filters {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-small);
+  }
+
+  .filters label {
+    margin-right: 0;
+  }
+
+  .filters select {
+    width: 90%;
+    margin-top: var(--spacing-small);
+  }
+
+  .recipe-grid {
+    grid-template-columns: 1fr;
+    padding: var(--spacing-medium);
+    gap: var(--spacing-medium);
+  }
+
+  .recipe-card {
+    max-width: 95%; /* Occupy almost full width */
+    margin: 0 auto;
+    --card-max-height: 500px; /* Adjust height for smaller screens */
+    --scroll-area-height: 180px; /* Adjust scroll height for smaller screens */
+  }
+
+  .recipe-image {
+    height: 160px;
+  }
+
+  .recipe-content {
+    padding: var(--spacing-small);
+  }
+
+  .recipe-title {
+    font-size: 1.6em;
+  }
+
+  .toggle-button {
+    display: block; /* Stack buttons vertically */
+    width: calc(100% - var(--spacing-small)); /* Account for margin-right */
+    margin-right: 0;
+    margin-bottom: var(--spacing-small);
+  }
+}
+
+/* Medium Screens (Tablets - 768px to 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .recipe-grid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: var(--spacing-large);
+    max-width: 850px;
+    margin: 0 auto;
+  }
+
+  .recipe-card {
+    max-width: none;
+    --card-max-height: 520px; /* Slightly adjusted height */
+    --scroll-area-height: 200px;
+  }
+}
+
+/* Large Screens (Desktops - 1024px and up) */
+@media (min-width: 1024px) {
+  .recipe-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1300px; /* Wider grid for more cards per row */
+    margin: 0 auto;
+  }
+}
